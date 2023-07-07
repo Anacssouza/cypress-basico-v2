@@ -86,7 +86,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('input[type="radio"][value="feedback"]').check().should('have.value', 'feedback')
     })
 
-    it.only('marca cada tipo de atendimento', function(){
+    it('marca cada tipo de atendimento', function(){
         cy.get('input[type="radio"]').should('have.length', 3).each(function($radio){
             cy.wrap($radio).check()
             cy.wrap($radio).should('be.checked')
@@ -94,6 +94,27 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     })
 
     //seção 6
+
+    it('marca ambos checkboxes, depois desmarca o último', function(){
+        cy.get('#check input[type="checkbox"]').check().each(checkbox => { 
+            expect(checkbox[0].checked).to.equal(true)
+        }).last().uncheck().should('not.be.checked')
+    })
+
+    it.only('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário - com check', function(){
+        cy.get('#firstName').type('Ana')
+        cy.get('#lastName').type('Souza')
+        cy.get('#email').type('ana.silveira@dentalspeed.com')
+        cy.get('#phone-checkbox').check().should('be.checked')
+        cy.get('#open-text-area').type('teste')
+        cy.contains('button', 'Enviar').click()
+        
+        cy.get('.error').should('be.visible')
+    })
+
+    //seção 7
+
+    
 
   })
 
