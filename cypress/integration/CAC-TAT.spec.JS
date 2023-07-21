@@ -101,7 +101,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         }).last().uncheck().should('not.be.checked')
     })
 
-    it.only('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário - com check', function(){
+    it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário - com check', function(){
         cy.get('#firstName').type('Ana')
         cy.get('#lastName').type('Souza')
         cy.get('#email').type('ana.silveira@dentalspeed.com')
@@ -113,7 +113,21 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     })
 
     //seção 7
+    it('Seleciona um arquivo da pastas fixtures', function(){
+        cy.get('input[type="file"]').should('not.have.value')
+          .selectFile('cypress/fixtures/example.json').should(function($input){
+            expect($input[0].files[0].name).to.equal('example.json')
+          })
+    })
 
+    it.only('seleciona um arquivo simulando um drag-and-drop', function(){
+        cy.get('input[type="file"]', {action: 'drag-drop'})
+          .should('not.have.value')
+        .selectFile('cypress/fixtures/example.json').should(input => {
+            expect(input[0].files[0].name).to.equal('example.json')
+          })
+          
+    })
     
 
   })
