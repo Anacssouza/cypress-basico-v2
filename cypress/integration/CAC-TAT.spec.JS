@@ -68,7 +68,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
 
     // Seção 4
 
-    it('sleciona um produto (Youtube) por seu texto', function(){
+    it('seleciona um produto (Youtube) por seu texto', function(){
         cy.get('#product').select('YouTube').should('have.value', 'youtube')
     })
 
@@ -120,16 +120,37 @@ describe('Central de Atendimento ao Cliente TAT', function() {
           })
     })
 
-    it.only('seleciona um arquivo simulando um drag-and-drop', function(){
+    it('seleciona um arquivo simulando um drag-and-drop', function(){
         cy.get('input[type="file"]', {action: 'drag-drop'})
           .should('not.have.value')
         .selectFile('cypress/fixtures/example.json').should(input => {
             expect(input[0].files[0].name).to.equal('example.json')
           })
-          
     })
+
+    it('seleciona um arquivo utilizando uma fixture para a qual foi dada um alias', function(){
+        cy.fixture('example.json').as('exampleFile')
+        cy.get('input[type="file"]').should('not.have.value')
+          .selectFile('@exampleFile').should(function($input){
+            expect($input[0].files[0].name).to.equal('example.json')
+        })
+    })
+
+    // seção 8
+    it('verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', function(){
+        cy.get('#privacy a').should('have.attr', 'target', '_blank')
+    })
+  
+    it('acessa a página da política de privacidade removendo o target e então clicando no link', function(){
+        cy.get('#privacy a').invoke('removeAttr', 'target').click()
+
+        cy.contains('CAC TAT - Política de privacidade').should('be.visible')
+    })
+
+    // exercício extra 2 ta no privacy.spec.JS
+
+    // seção 9
+
     
 
-  })
-
-
+})
