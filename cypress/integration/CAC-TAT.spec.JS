@@ -149,7 +149,38 @@ describe('Central de Atendimento ao Cliente TAT', function() {
 
     // exercício extra 2 ta no privacy.spec.JS
 
-    // seção 9
+    // seção 9 - testando em dispositivos móveis
+
+    /*
+     * Nessa seção foi adicionado no package.json um novo comando que altera a altura e a largura da visualização, simulando um mobile
+     * 
+     * adicionado no package.json o comando --> "cy:open:mobile": "cypress open --config viewportWidth=410 viewportHeight=860" <-- em scripts
+     * 
+     * todos os testes já criados são feitos normalmente, porém em um tamanho de tela diferente
+     * 
+     */
+
+    /*
+    * Outro ponto ensinado nessa seção foi como rodar o cypress em modo headless, ou seja, "por trás dos panos", aparecendo os resultados somente no terminal e não naquela telinha.
+    * 
+    * Para rodar em modo headless na visualização do tamanho de desktop normal é só colocar no terminal --> npm run test <-- que está definido em package.json
+    * 
+    * Rodando nesse modo, ele também cria automaticamente uma nova pasta de videos e um video de todo o teste rodando, sendo que quando acontece um erro ele tira uma print da tela e cria outra pasta chamada screenshots com a evidência do erro
+    * 
+    * Para rodar em modo headless na visualização mobile é só colocar no terminal --> npm run test:mobile <-- que está definido em package.json
+    * 
+    */
+
+    // seção 10 - documentação do projeto
+
+    /**
+     * Criado o arquivo __intro.md pros textos referentes a introdução do curso que estavam no readme
+     * 
+     * Adicionada  a documentação básica no arquivo readme.md
+     */
+
+
+
 
     
 
