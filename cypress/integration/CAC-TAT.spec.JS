@@ -1,6 +1,7 @@
 /// <reference types="Cypress" />
 
 describe('Central de Atendimento ao Cliente TAT', function() {
+    const threeSecondsInMs = 3000
     beforeEach(function() {
         cy.visit('./src/index.html')
     })
@@ -12,16 +13,21 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     it('preenche os campos obrigatórios e envia o formulário', function(){
         const longtext = 'Teste Teste Teste Teste Teste Teste Teste Teste Teste Teste Teste Teste Teste Teste Teste Teste Teste Teste Teste Teste'
 
+        cy.clock() // congela o relógio do navegador, para o tempo
+
         cy.get('#firstName').type('Ana')
         cy.get('#lastName').type('Souza')
         cy.get('#email').type('ana.silveira@dentalspeed.com')
         cy.get('#open-text-area').type(longtext, {delay: 0})
         cy.contains('button', 'Enviar').click()
-        
+    
         cy.get('.success').should('be.visible')
+        cy.tick(threeSecondsInMs) // avança o tempo em 3 seg
+        cy.get('.success').should('not.be.visible')
     })
 
     it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function(){
+        cy.clock()
         cy.get('#firstName').type('Ana')
         cy.get('#lastName').type('Souza')
         cy.get('#email').type('ana.silveira@dentalspeed,com') // email com formatação errada
@@ -29,6 +35,8 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.contains('button', 'Enviar').click()
         
         cy.get('.error').should('be.visible')
+        cy.tick(threeSecondsInMs)
+        cy.get('.error').should('not.be.visible')
     })
 
     it('campo de telefone continua vazio ao digitar valor não numérico', function(){
@@ -36,6 +44,8 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     })
 
     it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function(){
+        cy.clock()
+
         cy.get('#firstName').type('Ana')
         cy.get('#lastName').type('Souza')
         cy.get('#email').type('ana.silveira@dentalspeed.com')
@@ -44,6 +54,9 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.contains('button', 'Enviar').click()
         
         cy.get('.error').should('be.visible')
+
+        cy.tick(threeSecondsInMs)
+        cy.get('.error').should('not.be.visible')
     })
 
     it('preenche e limpa os campos nome, sobrenome, email e telefone', function(){
@@ -56,14 +69,21 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     })
 
     it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', function(){
+        cy.clock()
         cy.contains('button', 'Enviar').click()
         cy.get('.error').should('be.visible')
+
+        cy.tick(threeSecondsInMs)
+        cy.get('.error').should('not.be.visible')
     })
 
     it('envia o formulário com sucesso usando um comando customizado', function(){
         cy.fillMandatoryFieldsAndSubmit() // criou um comando personalizado que está em cypress > support > commands.js
         
+        cy.clock()
         cy.get('.success').should('be.visible')
+        cy.tick(threeSecondsInMs)
+        cy.get('.success').should('not.be.visible')
     })
 
     // Seção 4
@@ -102,6 +122,8 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     })
 
     it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário - com check', function(){
+
+        cy.clock()
         cy.get('#firstName').type('Ana')
         cy.get('#lastName').type('Souza')
         cy.get('#email').type('ana.silveira@dentalspeed.com')
@@ -110,6 +132,9 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.contains('button', 'Enviar').click()
         
         cy.get('.error').should('be.visible')
+
+        cy.tick(threeSecondsInMs)
+        cy.get('.error').should('not.be.visible')
     })
 
     //seção 7
@@ -180,7 +205,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
      */
 
 
-    // Seção 11 - 
+    // Seção 11 - github actions
     /**
      *  links úteis -> https://docs.cypress.io/guides/continuous-integration/github-actions#Cypress-GitHub-Action
      *              -> https://github.com/cypress-io/github-action
@@ -189,6 +214,28 @@ describe('Central de Atendimento ao Cliente TAT', function() {
      *  Foi criado o diretório github e o subdiretório workflows. Dentro do diretório workflows foi criado o arquivo main.yml 
      */
 
-    
+    // seção 12 - Avançando no uso do Cypress
+
+    /**
+     * funcionalidades cy.clock() e cy.tick() - controlam o tempo, clock() para o tempo e tick() avança no tempo
+     */
+
+    /**
+     * 
+     * sobre o lodash
+     * 
+     * links úteis -> https://docs.cypress.io/api/utilities/_  -> documentação do cypress sobre o lodash
+     *             -> https://lodash.com/docs/4.17.15#repeat -> documentação do lodash sobre o repeat
+     *             -> https://talkingabouttesting.com/2022/02/11/como-simular-um-ctrlv-com-cypress/ -> exemplo melhor do repeat
+     * 
+     * funcionalidades .times() e .repeat() 
+     * 
+     * Cypress._.times(num, () => coisa a ser repetida) faz com que o que for passado na função callback que é o segundo argumento seja repetido quantas vezes for passado no primeiro argumento. tem exemplo no privacy.spec.JS
+     * 
+     * Cypress._.repeat('string', num) => faz com que o texto que é passado como primeiro parâmetro se repita pelo tanto de vezes que é passado no segundo parâmetro
+     * 
+     */
+
+
 
 })
