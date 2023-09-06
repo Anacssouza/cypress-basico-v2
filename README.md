@@ -1,4 +1,8 @@
-# cypress-basico-v2
+# Curso de Testes em Cypress Básico
+
+> Conteúdo estudado e exercícios feitos no curso básico de cypress produzido pelo Walmyr Filho do Talking About Test
+
+###
 
 Sample project for the basic course of the Talking About Test online school.
 
