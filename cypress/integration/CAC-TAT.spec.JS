@@ -180,7 +180,14 @@ describe('Central de Atendimento ao Cliente TAT', function() {
      */
 
 
-
+    // Seção 11 - 
+    /**
+     *  links úteis -> https://docs.cypress.io/guides/continuous-integration/github-actions#Cypress-GitHub-Action
+     *              -> https://github.com/cypress-io/github-action
+     * 
+     * 
+     *  Foi criado o diretório github e o subdiretório workflows. Dentro do diretório workflows foi criado o arquivo ci.yml (poderia ser qualquer outro nome, foi ci pq significa continuous integration)
+     */
 
     
 
