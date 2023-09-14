@@ -236,6 +236,59 @@ describe('Central de Atendimento ao Cliente TAT', function() {
      * 
      */
 
+    // sobre o invoke('show') e involke('hide')
+    it('exibe e esconde as mensagens de sucesso e erro usando o .invoke()', function(){
+        cy.get('.success')
+            .should('not.be.visible')
+            .invoke('show')
+            .should('be.visible')
+            .and('contain', 'Mensagem enviada com sucesso.')
+            .invoke('hide')
+            .should('not.be.visible')
+        cy.get('.error')
+            .should('not.be.visible')
+            .invoke('show')
+            .should('be.visible')
+            .and('contain', 'Valide os campos obrigatórios!')
+            .invoke('hide')
+            .should('not.be.visible')
+    })
 
+    // cy.invoke('val')
+
+    it('preenche a area de texto usando o comando invoke', function(){
+        const longtext = Cypress._.repeat('teste, ', 50)
+        cy.get('#open-text-area').invoke('val', longtext).should('have.value', longtext)
+    })
+
+    // cy.request() - requisição HTTP - teste de API
+
+    it('faz uma requisição HTTP', function(){
+        cy.request('https://cac-tat.s3.eu-central-1.amazonaws.com/index.html')
+            .should(function(response){   // passa a resposta da request como parâmetro
+                const { status, statusText, body } = response  // desestrutura a resposta da requisição pra pegar só o que é passado ali entre as chaves, ou seja, o status o statusText e o body
+                expect(status).to.equal(200)
+                expect(statusText).to.equal('OK')
+                expect(body).to.include('CAC TAT')
+            })
+    })
+
+    // Seção 13 - desafio
+    it.only('encontra o gato escondido', function(){
+        cy.get('#cat').invoke('show').should('be.visible')
+        cy.get('#title').invoke('text', 'CAT TAT')
+        cy.get('#subtitle').invoke('text', 'I ❤️ Cats')
+    })
 
 })
+
+// Seção 14 - Finalização 
+
+/**
+ * Links uteis:
+ *  https://talkingabouttesting.com/category/cypress/
+ *  https://www.youtube.com/playlist?list=PL-eblSNRj0QHIRCg9hYUYzSY87EyWo4k_
+ *  https://www.youtube.com/playlist?list=PL-eblSNRj0QH95Kx6iMR_Fwk5WsCM89Ha
+ *  https://www.youtube.com/playlist?list=PL-eblSNRj0QGU6gO4Yhb27ZwaCASG-lQl
+ *  https://www.youtube.com/playlist?list=PL-eblSNRj0QFFRzKi2GP0U-I5xFlUHW5E
+ */
